@@ -1,13 +1,14 @@
-import Background from "@/components/shared/Background";
+import Background from "@/components/chessboard/Background";
+import Chess from "@/components/chessboard/Chess";
 import React from "react";
 
 const page = () => {
   return (
-    <div className="relative w-full h-screen bg-blackColor flex items-center justify-center overflow-hidden">
+    <div className="relative max-w-[450px] w-full h-screen bg-blackColor flex items-center justify-center overflow-hidden p-3">
       <Background />
 
-      <div className="relative z-10 text-white text-3xl font-bold">
-        Luscent Chess
+      <div className="w-full relative z-10 text-white text-3xl font-bold">
+        <Chess />
       </div>
     </div>
   );
