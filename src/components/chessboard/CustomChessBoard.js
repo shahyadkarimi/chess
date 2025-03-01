@@ -97,11 +97,7 @@ const CustomChessBoard = () => {
               square,
               {
                 background: "radial-gradient(#3D4AEB 30%, transparent 30%)",
-                borderRadius: "50%",
-                // border: `16px solid ${
-                //   getSquareColor(square) === "white" ? "#f3f4f6" : "#373855"
-                // }`,
-                // borderRadius: "100%",
+                borderRadius: "50%", 
               },
             ])
           ),
