@@ -6,11 +6,7 @@ import { Providers } from "./providers";
 import NextTopLoader from "nextjs-toploader";
 import Script from "next/script";
 
-export const metadata = {
-  title: "Chess Game",
-};
-
-export default async function RootLayout({ children }) {
+export default function RootLayout({ children }) {
   return (
     <html lang="fa" dir="rtl" className="dark">
       <head>
