@@ -2,7 +2,7 @@
 import React, { useEffect } from "react";
 
 const Auth = () => {
-  const telegram = window.Telegram.WebApp;
+  const telegram = window?.Telegram?.WebApp;
 
   console.log(telegram);
   useEffect(() => {
