@@ -13,6 +13,8 @@ module.exports = {
         redColor: "#B15653",
         blackColor: "#0C0813",
         grayColor: "#373855",
+        primaryDarkTheme: "#1f2735",
+        secondaryDarkTheme: "#232c3b",
       },
     },
   },

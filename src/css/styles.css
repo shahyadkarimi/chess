@@ -66,11 +66,11 @@
 
 html {
   scroll-behavior: smooth;
-  background: #fff;
+  background: #1f2735;
 }
 
 body {
   font-family: YekanBakh, sans-serif;
-  background: #fff;
+  background: #1f2735;
   scrollbar-width: none;
 }

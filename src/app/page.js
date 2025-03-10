@@ -4,7 +4,7 @@ import React from "react";
 
 const page = () => {
   return (
-    <div className="relative max-w-[450px] flex flex-col gap-5 w-full h-screen bg-blackColor overflow-hidden p-6">
+    <div className="relative max-w-[450px] flex flex-col gap-5 w-full h-screen bg-primaryDarkTheme overflow-hidden p-5">
       <Background />
 
       <Header />
