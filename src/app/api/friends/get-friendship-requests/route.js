@@ -1,18 +1,25 @@
-export async function GET(request) {
+import connectDB from "@/lib/db";
+
+export async function GET(req) {
   try {
     await connectDB();
 
-    const { searchParams } = new URL(request.url);
-    const userId = searchParams.get("userId");
-
-    if (!userId) {
-      return NextResponse.json(
-        { message: "شناسه کاربر ارسال نشده است." },
-        { status: 400 }
-      );
+    // get user token
+    const token = req.cookies.get("token")?.value;
+    if (!token) {
+      return NextResponse.json({ error: "توکن یافت نشد." }, { status: 401 });
     }
 
-    // دریافت درخواست‌های دوستی‌ای که هنوز قبول یا رد نشده‌اند
+    // get user id by token
+    let userId;
+    try {
+      const decoded = jwt.verify(token, process.env.JWT_SECRET);
+      userId = decoded.userId;
+    } catch (err) {
+      return NextResponse.json({ error: "توکن نامعتبر است." }, { status: 401 });
+    }
+
+    // get requests with pending status
     const requests = await FriendRequest.find({
       receiver: userId,
       status: "pending",

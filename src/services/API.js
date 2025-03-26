@@ -2,6 +2,7 @@ import axios from "axios";
 
 export const baseURL = "http://localhost:3000/api";
 export const siteURL = "http://localhost:3000";
+// eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOiI2N2UzY2MyMjU3ZmUwY2E1NDNhYTE2ODEiLCJwaG9uZU51bWJlciI6IjA5MDE2NTk5MDg2IiwiaWF0IjoxNzQyOTgyMTc4fQ.WPEF8pi_BrP_8eICXtQtI35Alw_QCEkAq2CadgKf7aQ
 
 // axios config
 const servicesApi = axios.create({
@@ -41,20 +42,7 @@ const postData = async (
 };
 
 // get method
-const getData = async (param, data, headers, withToken = true) => {
-  if (withToken) {
-    let token = localStorage.getItem("token");
-
-    const res = await servicesApi.get(param, {
-      params: data,
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
-
-    return res;
-  }
-
+const getData = async (param, data) => {
   const res = await servicesApi.get(param, { params: data });
   return res;
 };
