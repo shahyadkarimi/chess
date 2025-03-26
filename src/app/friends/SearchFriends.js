@@ -3,16 +3,20 @@
 import { getData, postData } from "@/services/API";
 import { Input, Spinner } from "@heroui/react";
 import Image from "next/image";
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
 import UserItem from "./UserItem";
 import { useUser } from "@/store/useUser";
+import useClickOutside from "@/hooks/useClickOutside";
 
 const SearchFriends = () => {
   const { user } = useUser();
   const [search, setSearch] = useState("");
   const [loading, setLoading] = useState(false);
   const [data, setData] = useState({});
+  const searchWrapper = useRef();
+
+  useClickOutside(searchWrapper, () => setData({}));
 
   const searchHandler = () => {
     setLoading(true);
@@ -66,6 +70,7 @@ const SearchFriends = () => {
       </div>
 
       <div
+        ref={searchWrapper}
         className={`w-full ${
           data?.result ? "max-h-96" : "max-h-10"
         } bg-secondaryDarkTheme rounded-2xl overflow-hidden transition-all duration-300`}
@@ -116,9 +121,6 @@ const SearchFriends = () => {
           }
           label={""}
           value={search}
-          onBlur={() => {
-            setData({});
-          }}
           onChange={onChangeSearchHandler}
           placeholder="نام نمایشی یا نام کاربری دوست خود را جست و جو کنید..."
           variant="bordered"

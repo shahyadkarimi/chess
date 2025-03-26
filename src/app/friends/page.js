@@ -1,29 +1,28 @@
-"use client";
-
 import Background from "@/components/chessboard/Background";
 import Navbar from "@/components/navbar/Navbar";
 import React from "react";
 import SearchFriends from "./SearchFriends";
-import { useQuery } from "@tanstack/react-query";
 import FriendItem from "./FriendItem";
 import { Spinner } from "@heroui/react";
+import FriendRequests from "./FriendRequests";
+import { baseURL } from "@/services/API";
+import { cookies } from "next/headers";
+import { toFarsiNumber } from "@/helper/helper";
 
-const fetchData = async ({}) => {
-  const res = await fetch("/api/friends/get-all", {
+const page = async () => {
+  const token = (await cookies()).get("token")?.value;
+
+  const res = await fetch(`${baseURL}/friends/get-all`, {
     method: "GET",
-    headers: { "Content-Type": "application/json" },
+    credentials: "include",
+    headers: {
+      Authorization: `Bearer ${token}`,
+    },
   });
 
-  if (!res.ok) throw new Error("مشکلی پیش آمد!");
+  const data = await res.json();
 
-  return res.json();
-};
-
-const page = () => {
-  const { data, error, isLoading } = useQuery({
-    queryKey: ["friends"],
-    queryFn: fetchData,
-  });
+  console.log(data);
 
   return (
     <div className="relative max-w-[450px] flex flex-col items-center gap-5 w-full h-screen bg-primaryDarkTheme overflow-hidden p-5">
@@ -43,21 +42,20 @@ const page = () => {
       <SearchFriends />
 
       <div className="w-full flex flex-col gap-3 -mt-1.5">
-        <h2 className="bg-gradient-to-b from-white to-gray-400 bg-clip-text text-transparent">
-          دوستان شما
-        </h2>
+        <div className="flex items-center gap-6">
+          <div className="flex items-center gap-1">
+            <h2 className="bg-gradient-to-b from-white to-gray-400 bg-clip-text text-transparent">
+              دوستان شما
+            </h2>
+            <div className="size-5 text-xs bg-blueColor flex justify-center items-center rounded-lg">
+              {toFarsiNumber(data?.friendsList.length)}
+            </div>
+          </div>
 
-        {isLoading ? (
-          <Spinner
-            size="sm"
-            label="درحال بارگذاری..."
-            classNames={{
-              label: "text-xs",
-              circle1: "border-b-blueColor",
-              circle2: "border-b-blueColor",
-            }}
-          />
-        ) : data?.friendsList?.length ? (
+          <FriendRequests data={data?.friendshipRequests} />
+        </div>
+
+        {data?.friendsList?.length ? (
           data?.friendsList.map((item) => (
             <FriendItem key={item._id} userInfo={item} />
           ))

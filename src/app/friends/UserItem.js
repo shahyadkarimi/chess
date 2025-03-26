@@ -36,7 +36,7 @@ const UserItem = ({ userInfo }) => {
           src={"/avatar.png"}
           width={50}
           height={50}
-          className="size-8 rounded-xl object-cover"
+          className="size-8 rounded-xl object-cover -mr-0.5"
           alt={`کاربر ${userInfo.nickName}`}
         />
 

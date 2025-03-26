@@ -1,4 +1,5 @@
 import connectDB from "@/lib/db";
+import FriendRequest from "@/models/FriendRequest";
 import Friendship from "@/models/Friendship";
 import jwt from "jsonwebtoken";
 import { cookies } from "next/headers";
@@ -9,15 +10,12 @@ export async function GET(req) {
     await connectDB();
 
     // get user token
-    const token = (await cookies()).get("token")?.value;
-
+    const token = req.cookies.get("token")?.value || req.headers.get("authorization").split(" ")[1];
     if (!token) {
-      return NextResponse.json(
-        { error: "توکن یافت نشد.",},
-        { status: 401 }
-      );
+      return NextResponse.json({ error: "توکن یافت نشد.",auth }, { status: 401 });
     }
-    // get user id by token
+
+  // get user id by token
     let userId;
     try {
       const decoded = jwt.verify(token, process.env.JWT_SECRET);
@@ -26,23 +24,31 @@ export async function GET(req) {
       return NextResponse.json({ error: "توکن نامعتبر است." }, { status: 401 });
     }
 
-    // پیدا کردن دوستانی که این کاربر در آن‌ها حضور دارد
+    // get user friends
     const friends = await Friendship.find({
       $or: [{ user1: userId }, { user2: userId }],
-    }).populate("user1 user2", "name nickName");
+    }).populate("user1 user2", "userName nickName");
 
-    // فرمت خروجی
-    const friendsList = friends.map((friend) => {
+    const friendList = friends.map((friend) => {
       return friend.user1._id.toString() === userId
         ? friend.user2
         : friend.user1;
     });
 
-    return NextResponse.json(
-      { message: "درخواست با موفقیت انجام شد", friendsList },
-      { status: 200 }
-    );
+    // find users friendship requests
+    const friendRequests = await FriendRequest.find({
+      $or: [{ sender: userId }, { receiver: userId }],
+      status: "pending", // return requests with pending status
+    }).populate("sender receiver", "userName nickName");
+
+
+    return NextResponse.json({
+      message: "درخواست با موفقیت انجام شد.",
+      friendsList: friendList,
+      friendshipRequests: friendRequests,
+    });
   } catch (error) {
+    console.error("خطا در دریافت اطلاعات:", error);
     return NextResponse.json({ error: "مشکلی رخ داده است." }, { status: 500 });
   }
 }
