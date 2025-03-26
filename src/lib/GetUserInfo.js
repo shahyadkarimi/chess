@@ -4,7 +4,7 @@ import { getData } from "@/services/API";
 import { useUser } from "@/store/useUser";
 import React, { useEffect } from "react";
 
-const GetUser = () => {
+const GetUserInfo = () => {
   const { setUser } = useUser();
 
   useEffect(() => {
@@ -21,4 +21,4 @@ const GetUser = () => {
   return null;
 };
 
-export default GetUser;
+export default GetUserInfo;

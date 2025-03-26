@@ -2,8 +2,8 @@ import "./globals.css";
 import "../css/styles.css";
 import { Providers } from "./providers";
 import NextTopLoader from "nextjs-toploader";
-import GetUser from "@/lib/GetUser";
 import QueryProvider from "./QueryProvider";
+import GetUserInfo from "@/lib/GetUserInfo";
 
 export const metadata = {
   title: "Chess Game",
@@ -16,7 +16,7 @@ export default async function RootLayout({ children }) {
         <NextTopLoader color="#3D4AEB" showSpinner={false} />
 
         <Providers>
-          <GetUser />
+          <GetUserInfo />
           <QueryProvider>{children}</QueryProvider>
         </Providers>
       </body>
