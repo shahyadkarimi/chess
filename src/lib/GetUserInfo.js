@@ -11,9 +11,9 @@ const GetUserInfo = ({userInfo}) => {
 
   useEffect(() => {
     // get user info
-    setUser(userInfo.user);
+    setUser(userInfo?.user);
 
-    if (!userInfo.user) {
+    if (!userInfo?.user) {
       router.push("/auth");
     }
   }, []);

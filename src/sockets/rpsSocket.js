@@ -34,7 +34,7 @@ const handleFindGame = async (socket) => {
   if (waitingPlayer) {
     const roomId = `room-${onlineUsers[waitingPlayer].userId}-${
       onlineUsers[socket.id].userId
-    }`;
+    }-${Date.now()}`;
 
     try {
       const createRoomRes = await fetch(
