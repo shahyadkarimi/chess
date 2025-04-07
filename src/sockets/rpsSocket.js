@@ -125,7 +125,12 @@ const handleMakeMove = async (socket, roomId, move) => {
       gameMoves: gameMoves[roomId],
     });
     console.log(`Sent gameOver to room ${roomId}`);
-    delete gameMoves[roomId];
+    gameMoves[roomId] = {};
+
+    io.to(roomId).emit("waitingForOpponent", {
+      message: "منتظر حرکت حریف باشید!",
+      currentPlayer,
+    });
   } else {
     io.to(roomId).emit("waitingForOpponent", {
       message: "منتظر حرکت حریف باشید!",

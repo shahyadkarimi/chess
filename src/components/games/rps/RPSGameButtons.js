@@ -52,6 +52,8 @@ const RPSGameButtons = ({ roomId, roomInfo, user }) => {
 
     socket.on("gameOver", ({ result, winner, gameMoves }) => {
       setGameResult({ result, winner, gameMoves });
+
+      setSelectedMove({})
     });
 
     return () => {
@@ -116,7 +118,7 @@ const RPSGameButtons = ({ roomId, roomInfo, user }) => {
           src={"/rps/hand.svg"}
           width={400}
           height={800}
-          className="w-full max-w-40 absolute -bottom-24 right-0"
+          className="w-full max-w-40 absolute -bottom-24 right-0 slide-up"
         />
       </div>
 
@@ -126,7 +128,7 @@ const RPSGameButtons = ({ roomId, roomInfo, user }) => {
           src={"/rps/hand.svg"}
           width={400}
           height={800}
-          className="w-full max-w-40 absolute -top-24 left-0 -scale-x-100 -scale-y-100"
+          className="w-full max-w-40 absolute -top-24 left-0 -scale-x-100 -scale-y-100 slide-down"
         />
       </div>
     </div>

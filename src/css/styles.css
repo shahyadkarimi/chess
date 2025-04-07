@@ -78,3 +78,33 @@ body {
 .bottom-overly {
   background: linear-gradient(to top, #010711 15%, #0000 250%);
 }
+
+@keyframes slideUp {
+  0% {
+    opacity: 1;
+    transform: translateY(100%);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.slide-up {
+  animation: slideUp 0.5s ease-in forwards;
+}
+
+@keyframes slideDown {
+  0% {
+    opacity: 1;
+    transform: translateY(-100%) scaleX(-1) scaleY(-1);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scaleX(-1) scaleY(-1);
+  }
+}
+
+.slide-down {
+  animation: slideDown 0.5s ease-in forwards;
+  }
