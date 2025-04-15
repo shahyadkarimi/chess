@@ -3,7 +3,9 @@
 import { toFarsiNumber } from "@/helper/helper";
 import { siteURL } from "@/services/API";
 import Image from "next/image";
+import { useRouter } from "next/navigation";
 import React, { useEffect, useState } from "react";
+import toast, { Toaster } from "react-hot-toast";
 import { io } from "socket.io-client";
 
 const socket = io(siteURL);
@@ -28,6 +30,8 @@ const RPSGameButtons = ({ roomId, roomInfo, user }) => {
     me: 0,
     opponent: 0,
   });
+
+  const router = useRouter();
 
   const moves = [
     {
@@ -102,6 +106,17 @@ const RPSGameButtons = ({ roomId, roomInfo, user }) => {
       } else {
         setGameResult("you lose");
       }
+
+      toast.success("درحال انتقال به صفحه اصلی...", {
+        duration: 4000,
+        style: {
+          borderRadius: "10px",
+          background: "#040e1c",
+          color: "#fff",
+          fontSize: "14px",
+        },
+      });
+      router.push("/");
     }
 
     return () => {
@@ -116,11 +131,13 @@ const RPSGameButtons = ({ roomId, roomInfo, user }) => {
 
   return (
     <div className="w-full h-full relative max-w-[450px]">
-      {/* game result message */}
+      <Toaster />
+
+      {/* round result message */}
       <div
         className={`fixed ${
           resultMessage ? "opacity-100 visible" : "opacity-0 invisible"
-        } w-full max-w-[450px] h-full flex justify-center items-center text-2xl font-black z-[60] top-0 right-0 bottom-0 bg-black bg-opacity-75 backdrop-blur-sm transition-all duration-300`}
+        } w-full max-w-[450px] h-full flex justify-center items-center text-2xl font-black z-[60] top-0 right-0 bottom-0 bg-black bg-opacity-75 transition-all duration-300`}
       >
         {resultMessage === "win" ? (
           <span className="text-success">آفرین! این دست و بردی</span>
@@ -128,6 +145,21 @@ const RPSGameButtons = ({ roomId, roomInfo, user }) => {
           <span className="text-red-600">ای وای! این دست و باختی</span>
         ) : resultMessage === "draw" ? (
           <span className="text-gray-200">این دست مساوی شد!</span>
+        ) : (
+          ""
+        )}
+      </div>
+
+      {/* game result message */}
+      <div
+        className={`fixed ${
+          gameResult ? "opacity-100 visible" : "opacity-0 invisible"
+        } w-full max-w-[450px] h-full flex justify-center items-center text-2xl font-black z-[60] top-0 right-0 bottom-0 bg-black bg-opacity-75 transition-all duration-300`}
+      >
+        {gameResult === "you win" ? (
+          <span className="text-success">آفرین! این بازی و بردی</span>
+        ) : gameResult === "you lose" ? (
+          <span className="text-red-600">ای وای! این بازی و باختی</span>
         ) : (
           ""
         )}
