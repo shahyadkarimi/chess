@@ -22,7 +22,12 @@ const rpsSocket = (httpServer) => {
         console.log(
           `Set socket.userId to ${socket.userId} for socket ${socket.id}`
         );
-        onlineUsers[userId] = { socketId: socket.id, userName, nickName };
+        onlineUsers[userId] = {
+          socketId: socket.id,
+          userName,
+          nickName,
+          userId,
+        };
         io.emit("onlineUsers", Object.values(onlineUsers));
       });
 
@@ -145,7 +150,15 @@ const handleDisconnect = (socket) => {
   console.log(`🔴 User disconnected: ${socket.id}`);
   if (socket.userId) {
     delete onlineUsers[socket.userId];
+  } else {
+    // حذف با socketId در صورتی که userId نداشته باشه
+    for (const key in onlineUsers) {
+      if (onlineUsers[key].socketId === socket.id) {
+        delete onlineUsers[key];
+      }
+    }
   }
+
   if (waitingPlayer && waitingPlayer.userId === socket.userId) {
     waitingPlayer = null;
   }
