@@ -1,8 +1,9 @@
 "use client";
 
+import { SocketContextData } from "@/context/SocketContext";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import React from "react";
+import React, { useContext } from "react";
 
 const Navbar = () => {
   const route = usePathname();

@@ -7,6 +7,7 @@ import GetUserInfo from "@/lib/GetUserInfo";
 import { cookies } from "next/headers";
 import { baseURL } from "@/services/API";
 import { getUser } from "@/lib/fetchUser";
+import SocketContext from "@/context/SocketContext";
 
 export const metadata = {
   title: "Chess Game",
@@ -22,7 +23,10 @@ export default async function RootLayout({ children }) {
 
         <Providers>
           <GetUserInfo userInfo={userInfo} />
-          <QueryProvider>{children}</QueryProvider>
+
+          <QueryProvider>
+            <SocketContext userInfo={userInfo}>{children}</SocketContext>
+          </QueryProvider>
         </Providers>
       </body>
     </html>
