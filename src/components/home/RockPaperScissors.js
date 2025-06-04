@@ -13,6 +13,7 @@ const socket = io(siteURL);
 
 const RockPaperScissors = ({ user }) => {
   const [loading, setLoading] = useState(false);
+  const [gameInfo, setGameInfo] = useState({});
   const router = useRouter();
 
   useEffect(() => {
@@ -39,7 +40,7 @@ const RockPaperScissors = ({ user }) => {
 
       router.push(`/rps/${roomId}`);
 
-      console.log({ roomId, opponent, playerTurn });
+      setGameInfo({ roomId, opponent, playerTurn });
     });
 
     return () => socket.off();
@@ -56,26 +57,62 @@ const RockPaperScissors = ({ user }) => {
     socket.emit("cancelGame");
   };
 
+  console.log(gameInfo);
+
   return (
     <>
       <Toaster />
-      {loading && (
-        <div className="w-full h-full fixed max-w-[450px] top-0 flex flex-col justify-center items-center gap-6 bottom-0 right-0 z-50 bg-black bg-opacity-65">
-          <Spinner
-            label="درحال پیدا کردن حریف، منتظر بمانید..."
-            classNames={{
-              label: "text-sm",
-              circle1: "border-b-blueColor",
-              circle2: "border-b-blueColor",
-            }}
-          />
+      {(loading || gameInfo?.roomId) && (
+        <div className="w-full h-full fixed max-w-[450px] top-0 flex flex-col justify-center items-center gap-6 bottom-0 right-0 z-50 bg-black bg-opacity-80">
+          {loading && (
+            <>
+              <Spinner
+                label="درحال پیدا کردن حریف، منتظر بمانید..."
+                classNames={{
+                  label: "text-sm",
+                  circle1: "border-b-blueColor",
+                  circle2: "border-b-blueColor",
+                }}
+              />
 
-          <button
-            onClick={cancelGameFindingHandler}
-            className="bg-red-600 bg-opacity-15 text-red-600 text-sm px-3 py-2 rounded-xl"
-          >
-            لغو بازی
-          </button>
+              <button
+                onClick={cancelGameFindingHandler}
+                className="bg-red-600 bg-opacity-15 text-red-600 text-sm px-3 py-2 rounded-xl"
+              >
+                لغو بازی
+              </button>
+            </>
+          )}
+
+          {gameInfo.roomId && (
+            <div className="flex flex-col items-center gap-16">
+              <div className="flex flex-col text-sm items-center gap-2 slide-up">
+                <Image
+                  src={"/avatar.png"}
+                  width={100}
+                  height={100}
+                  alt={"player-1-avatar"}
+                  className="size-16 rounded-2xl"
+                />
+
+                <span>{gameInfo?.playerTurn?.nickName}</span>
+              </div>
+
+              <span className="text-2xl text-success font-black">حریف شما پیدا شد !</span>
+
+              <div className="flex flex-col text-sm items-center gap-2 slide-down-2">
+                <Image
+                  src={"/avatar.png"}
+                  width={100}
+                  height={100}
+                  alt={"player-1-avatar"}
+                  className="size-16 rounded-2xl"
+                />
+
+                <span>شهیاد کریمی</span>
+              </div>
+            </div>
+          )}
         </div>
       )}
 
