@@ -201,7 +201,7 @@ const ProfilePage = () => {
               <h1 className="text-xl font-black bg-gradient-to-b from-white to-gray-400 bg-clip-text text-transparent">
                 {user.nickName}
               </h1>
-              <span dir="ltr" className="text-xs text-blueColor font-medium">@{user.userName}</span>
+              <span className="text-xs text-blueColor font-medium">{user.userName}@</span>
             </div>
 
             {/* Rank Badge */}

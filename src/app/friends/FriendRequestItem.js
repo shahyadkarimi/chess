@@ -66,8 +66,8 @@ const FriendRequestItem = ({ userInfo }) => {
               <span className="text-sm font-semibold text-white truncate">
                 {userInfo.sender.nickName}
               </span>
-              <span dir="ltr" className="text-xs text-blueColor font-medium">
-                @{userInfo.sender.userName}
+              <span className="text-xs text-blueColor font-medium">
+                {userInfo.sender.userName}@
           </span>
         </div>
       </div>

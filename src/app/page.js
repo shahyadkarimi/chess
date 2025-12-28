@@ -24,7 +24,7 @@ const page = async () => {
       {/* boxes */}
       <div className="w-full grid grid-cols-3 gap-3">
         <RockPaperScissors user={user} />
-        <Chess />
+        <Chess user={user} />
         <TicTacToe user={user} />
         {/* {boxes.map((item, index) => (
           <div

@@ -49,8 +49,8 @@ const UserItem = ({ userInfo }) => {
             <span className="text-sm font-semibold text-white truncate">
               {userInfo.nickName}
             </span>
-            <span dir="ltr" className="text-xs text-blueColor font-medium">
-              @{userInfo.userName}
+            <span className="text-xs text-blueColor font-medium">
+              {userInfo.userName}@
           </span>
         </div>
       </div>

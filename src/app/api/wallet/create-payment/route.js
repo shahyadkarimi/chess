@@ -81,16 +81,13 @@ export async function POST(req) {
       return NextResponse.json({ message: "کاربر یافت نشد" }, { status: 404 });
     }
 
-    // Generate unique payment ID
     const paymentId = `PAY-${Date.now()}-${Math.random().toString(36).substr(2, 9)}`;
 
-    // Setup callback URLs
     const origin = req.headers.get("origin") || process.env.NEXT_PUBLIC_BASE_URL || "http://localhost:3000";
     const callbackUrl = `${origin}/api/wallet/payment-callback`;
     const returnUrl = `${origin}/payment-callback?orderId=${paymentId}`;
     const cancelUrl = `${origin}/payment-callback?orderId=${paymentId}`;
 
-    // Prepare Oxapay invoice request according to docs: https://docs.oxapay.com/api-reference/payment/generate-invoice
     const oxapayPayload = {
       amount: amountInUSD,
       currency: "USD",
@@ -99,11 +96,10 @@ export async function POST(req) {
       return_url: returnUrl,
       order_id: paymentId,
       email: user.phoneNumber + "@example.com",
-      description: `شارژ کیف پول - کاربر: ${user.userName}${PAYMENT_GATEWAY_MODE === "development" ? " (حالت تست)" : ""}`,
+      description: `شارژ کیف پول - کاربر: ${user.userName}`,
       ...(PAYMENT_GATEWAY_MODE === "development" && { sandbox: true }),
     };
 
-    // Create transaction record (amount stored in Toman)
     const transaction = await Transaction.create({
       userId: user._id,
       type: "deposit",
@@ -115,7 +111,6 @@ export async function POST(req) {
       gateway: "oxapay",
     });
 
-    // Request payment link from Oxapay
     try {
       const oxapayResponse = await fetch(OXAPAY_INVOICE_URL, {
         method: "POST",
@@ -170,3 +165,4 @@ export async function POST(req) {
     return NextResponse.json({ message: "خطا در ایجاد پرداخت" }, { status: 500 });
   }
 }
+

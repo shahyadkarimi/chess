@@ -74,7 +74,7 @@ const Header = () => {
                 className="text-emerald-400"
               />
               <span>
-                {toFarsiNumber((user?.balance || 0).toString())} تومان
+                {toFarsiNumber((user?.balance || 0))} تومان
               </span>
             </Link>
           </div>

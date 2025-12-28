@@ -68,4 +68,12 @@ const calculateRank = (totalScore) => {
   return 1; // کهربا
 };
 
+// Toast configuration - common style for all toasts
+export const toastConfig = {
+  borderRadius: "10px",
+  background: "#040e1c",
+  color: "#fff",
+  fontSize: "14px",
+};
+
 export { getGreeting, toFarsiNumber, getSquareColor, idGenerator, verifyToken, calculateRank };

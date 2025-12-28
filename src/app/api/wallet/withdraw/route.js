@@ -7,7 +7,10 @@ import jwt from "jsonwebtoken";
 export async function POST(req) {
   try {
     await connectDB();
-    const token = req.headers.get("authorization")?.split(" ")[1];
+    // Get token from cookie or authorization header
+    const token =
+      req.cookies.get("token")?.value ||
+      req.headers.get("authorization")?.split(" ")[1];
 
     if (!token) {
       return NextResponse.json({ message: "توکن یافت نشد" }, { status: 401 });
@@ -26,6 +29,14 @@ export async function POST(req) {
 
     if (!amount || amount <= 0) {
       return NextResponse.json({ message: "مبلغ باید بیشتر از صفر باشد" }, { status: 400 });
+    }
+
+    const MIN_WITHDRAW_AMOUNT = 100000;
+    if (amount < MIN_WITHDRAW_AMOUNT) {
+      return NextResponse.json(
+        { message: `حداقل مبلغ برداشت ${MIN_WITHDRAW_AMOUNT.toLocaleString()} تومان است` },
+        { status: 400 }
+      );
     }
 
     const user = await User.findById(userId);

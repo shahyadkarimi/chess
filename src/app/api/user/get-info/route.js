@@ -8,9 +8,10 @@ export async function GET(req) {
     await connectDB();
 
     // get user token
+    const authHeader = req.headers.get("authorization");
     const token =
       req.cookies.get("token")?.value ||
-      req.headers.get("authorization").split(" ")[1];
+      (authHeader && authHeader.split(" ")[1]);
 
     if (!token) {
       return NextResponse.json(

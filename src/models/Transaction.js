@@ -28,6 +28,24 @@ const TransactionSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
+  // Payment gateway fields
+  paymentId: {
+    type: String,
+    default: null,
+  },
+  paymentStatus: {
+    type: String,
+    enum: ["pending", "completed", "failed", "cancelled"],
+    default: "pending",
+  },
+  gateway: {
+    type: String,
+    default: null, // "oxapay", etc.
+  },
+  gatewayTransactionId: {
+    type: String,
+    default: null,
+  },
   createdAt: {
     type: Date,
     default: () => Date.now(),

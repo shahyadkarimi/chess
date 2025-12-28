@@ -57,14 +57,34 @@ const GameInvitationNotification = () => {
     // Use refs to avoid stale closures
     const invitationIdRef = invitation.invitationId;
 
-    // Listen for gameFound event
+    // Listen for gameFound event - handle different game types
     const handleGameFound = ({ roomId, isInvitedGame }) => {
       socket.off("gameFound", handleGameFound);
+      socket.off("tttGameFound", handleTicTacToeGameFound);
       socket.off("invitationError", handleInvitationError);
       setLoading(false);
       setInvitation(null);
       console.log("✅ Accepter: Game found, redirecting to:", roomId);
-      router.push(`/rps/${roomId}`);
+      
+      // Route based on game type
+      const gameType = invitation?.gameType || "rps";
+      if (gameType === "tictactoe") {
+        router.push(`/tictactoe/${roomId}`);
+      } else if (gameType === "chess") {
+        // Chess is disabled
+        return;
+      } else {
+        router.push(`/rps/${roomId}`);
+      }
+    };
+
+    const handleTicTacToeGameFound = ({ roomId, isInvitedGame }) => {
+      socket.off("gameFound", handleGameFound);
+      socket.off("tttGameFound", handleTicTacToeGameFound);
+      socket.off("invitationError", handleInvitationError);
+      setLoading(false);
+      setInvitation(null);
+      router.push(`/tictactoe/${roomId}`);
     };
 
     const handleInvitationError = ({ message: errorMessage }) => {
@@ -82,6 +102,7 @@ const GameInvitationNotification = () => {
     };
 
     socket.on("gameFound", handleGameFound);
+    socket.on("tttGameFound", handleTicTacToeGameFound);
     socket.on("invitationError", handleInvitationError);
   }, [invitation, router]);
 
@@ -152,7 +173,7 @@ const GameInvitationNotification = () => {
                     <p className="text-sm font-semibold text-white">
                       {invitation.from.nickName}
                     </p>
-                    <p dir="ltr" className="text-xs text-blueColor">
+                    <p className="text-xs text-blueColor">
                       @{invitation.from.userName}
                     </p>
                   </div>

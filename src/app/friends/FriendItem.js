@@ -129,8 +129,8 @@ const FriendItem = ({ userInfo }) => {
               {userInfo.nickName}
             </span>
             <div className="flex items-center gap-1.5">
-              <span dir="ltr" className="text-xs text-blueColor font-medium">
-                @{userInfo.userName}
+              <span className="text-xs text-blueColor font-medium">
+                {userInfo.userName}@
               </span>
               {isOnline && (
                 <span className="text-[10px] text-emerald-400 font-medium">

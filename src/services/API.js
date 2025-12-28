@@ -45,7 +45,18 @@ const postData = async (
 };
 
 // get method
-const getData = async (param, data) => {
+const getData = async (param, data, withToken = false) => {
+  if (withToken) {
+    let token = localStorage.getItem("token");
+    const res = await servicesApi.get(param, {
+      params: data,
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return res;
+  }
+
   const res = await servicesApi.get(param, { params: data });
   return res;
 };

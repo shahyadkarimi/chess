@@ -21,7 +21,7 @@ const SocketContext = ({ children, userInfo }) => {
   }, [user]);
 
   // Memoize handlers to prevent re-creation
-  const handleGameFound = useCallback(({ roomId, isInvitedGame }) => {
+  const handleGameFound = useCallback(({ roomId, isInvitedGame, gameType }) => {
     // Only handle if it's an invited game (to avoid conflicts with RockPaperScissors component)
     if (isInvitedGame) {
       console.log("✅ Game found for invited game, redirecting to:", roomId);
@@ -34,7 +34,15 @@ const SocketContext = ({ children, userInfo }) => {
           fontSize: "14px",
         },
       });
-      router.push(`/rps/${roomId}`);
+      // Route based on game type
+      if (gameType === "tictactoe") {
+        router.push(`/tictactoe/${roomId}`);
+      } else if (gameType === "chess") {
+        // Chess is disabled
+        return;
+      } else {
+        router.push(`/rps/${roomId}`);
+      }
     }
   }, [router]);
 

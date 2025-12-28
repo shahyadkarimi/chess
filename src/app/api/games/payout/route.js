@@ -56,7 +56,7 @@ export async function POST(req) {
       userId: winner._id,
       type: "game_win",
       amount: winnings,
-      description: `برنده بازی ${gameType === "tictactoe" ? "دوز" : "سنگ کاغذ قیچی"}: ${winnings} تومان`,
+      description: `برنده بازی ${gameType === "tictactoe" ? "دوز" : gameType === "chess" ? "شطرنج" : "سنگ کاغذ قیچی"}: ${winnings} تومان`,
       relatedUserId: loser._id,
       balanceAfter: winner.balance,
     });
@@ -66,7 +66,7 @@ export async function POST(req) {
       userId: loser._id,
       type: "game_loss",
       amount: -betAmount,
-      description: `بازنده بازی ${gameType === "tictactoe" ? "دوز" : "سنگ کاغذ قیچی"}: ${betAmount} تومان`,
+      description: `بازنده بازی ${gameType === "tictactoe" ? "دوز" : gameType === "chess" ? "شطرنج" : "سنگ کاغذ قیچی"}: ${betAmount} تومان`,
       relatedUserId: winner._id,
       balanceAfter: loser.balance || 0,
     });
