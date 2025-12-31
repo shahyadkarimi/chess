@@ -1,7 +1,11 @@
 import axios from "axios";
 // https://chess-sepia-alpha.vercel.app
-const hostName = "http://localhost:3000";
-// process.env.NODE_ENV === "development" ? "http://localhost:3000" : "https://chess-production-9ba7.up.railway.app";
+const hostName =
+  process.env.NODE_ENV === "development"
+    ? "http://localhost:3000"
+    : "https://gamehub.liara.run";
+
+// "http://localhost:3000";
 
 export const baseURL = `${hostName}/api`;
 export const siteURL = `${hostName}`;

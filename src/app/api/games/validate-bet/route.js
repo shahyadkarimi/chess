@@ -6,7 +6,10 @@ import jwt from "jsonwebtoken";
 export async function POST(req) {
   try {
     await connectDB();
-    const token = req.headers.get("authorization")?.split(" ")[1];
+    // Get token from cookie or authorization header
+    const token =
+      req.cookies.get("token")?.value ||
+      req.headers.get("authorization")?.split(" ")[1];
 
     if (!token) {
       return NextResponse.json({ message: "توکن یافت نشد" }, { status: 401 });
